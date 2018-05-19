@@ -1,0 +1,219 @@
+#searcher,
+#submitBtn {
+    height: 50px;
+
+}
+
+#searcher {
+    margin-top: 10px;
+    width: 80%;
+    margin-left: 75px;
+}
+
+#searching {
+    height: 50px;
+    font-size: 18px;
+    font-family: "Courier New", Courier, monospace;
+
+}
+
+.container h1 {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 40px;
+    text-align: center;
+}
+
+.container p {
+    font-size: 18px;
+    font-family: "Courier New", Courier, monospace;
+}
+
+#cityNameTitle {
+    margin-top: 10px;
+
+}
+
+table {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 18px;
+}
+
+table thead {
+    font-weight: bold;
+}
+
+
+.carousel-inner{
+    width: 100%;
+    margin-left: 25px;
+}
+
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 80%;
+    margin: auto;
+    height: 525px;
+}
+
+#myCarousel {
+    margin-top: 10px;
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 35%;
+    margin-left: 150px;
+    border-radius: 25px;
+    /*    border: 2px solid black; */
+}
+
+.carousel-caption p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+ol.carousel-indicators li,
+ol.carousel-indicators li.active {
+    width: 35px;
+    height: 5px;
+    margin: 0;
+    border-radius: 0;
+    border: 1px solid white;
+    background: transparent;
+}
+
+ol.carousel-indicators li.active {
+    background: white;
+}
+
+span.glyphicon.glyphicon-chevron-right,
+span.glyphicon.glyphicon-chevron-left {
+    color: rgb(0, 0, 0);
+
+}
+
+.carousel-control.right,
+.carousel-control.left {
+    background-image: none;
+    width: 50px;
+}
+
+.carousel-control {
+    opacity: 0.8;
+}
+
+#explanation {
+    /*    border: 3px solid red; */
+    z-index: 1;
+    background-color: white;
+    position: fixed;
+    top: 70px;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+
+}
+
+h2 {
+    font-family: "Courier New", Courier, monospace;
+    text-align: center;
+
+}
+
+
+
+
+
+.crossfade > figure {
+    animation: imageAnimation 30s linear infinite 0s;
+    backface-visibility: hidden;
+    background-size: cover;
+    background-position: center center;
+    color: transparent;
+    height: 100%;
+    left: 0px;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    /*  z-index: 0;*/
+}
+
+.crossfade > figure:nth-child(1) {
+    background-image: url("Imatges/tokyo.jpg");
+}
+
+.crossfade > figure:nth-child(2) {
+    animation-delay: 6s;
+    background-image: url("Imatges/New-York-1.jpg");
+}
+
+.crossfade > figure:nth-child(3) {
+    animation-delay: 12s;
+    background-image: url("Imatges/moscow.jpg");
+}
+
+.crossfade > figure:nth-child(4) {
+    animation-delay: 18s;
+    background-image: url("Imatges/london.jpg");
+}
+
+.crossfade > figure:nth-child(5) {
+    animation-delay: 24s;
+    background-image: url("Imatges/sydney.jpg");
+}
+
+.crossfade > figure:nth-child(6) {
+    animation-delay: 30s;
+    background-image: url("Imatges/paris.jpg");
+}
+
+
+@keyframes imageAnimation {
+    0% {
+        animation-timing-function: ease-in;
+        opacity: 0;
+    }
+    8% {
+        animation-timing-function: ease-out;
+        opacity: 1;
+    }
+    17% {
+        opacity: 1
+    }
+    25% {
+        opacity: 0
+    }
+    100% {
+        opacity: 0
+    }
+}
+
+
+#listCities {
+/*    border: 3px solid red;*/
+    width: 120px;
+    height: 400px;
+    display: flex;
+    justify-content: space-around; 
+    flex-direction: column;
+    position: fixed;
+    left: 5px;
+    background: rgba(0, 0, 0,0.7);
+    border-radius: 10px;
+    z-index: 1; 
+    
+}
+
+#listCities .btn {
+    border: 1px solid black;
+    width: 100px;
+    margin-left: 10px;
+
+}
+
+#createFavourite{
+    margin-top: 80px;,
+}

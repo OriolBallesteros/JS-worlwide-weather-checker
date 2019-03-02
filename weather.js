@@ -2,38 +2,37 @@ $("#myCarousel").hide();
 
 document.getElementById("searching").focus();
 
+//click on
 $("#submitBtn").on("click", function () {
-    var searching = $("#searching").val();
-    //        console.log(searching);
-    getCity(searching);
-    $("#explanation").remove();
+    searchEvent();
 });
 
 var searchingBar = document.getElementById("searching");
 searchingBar.addEventListener("keyup", function (event) {
     if (event.keyCode === 13) {
-        var searching = $("#searching").val();
-        //            console.log(searching);
-        getCity(searching);
-        $("#explanation").remove();
+        searchEvent();
     };
 });
 
+function searchEvent() {
+    var searching = $("#searching").val();
+    getCity(searching);
+    $("#explanation").remove();
+    $("#searching").val('');
+}
+
 $("#createFavourite").on("click", function () {
     var favouriteCity = $("#searching").val();
-    //        console.log(favouriteCity);
     var buttonFavouriteCity = document.createElement("button");
     buttonFavouriteCity.setAttribute("class", "btn fav-bar");
     buttonFavouriteCity.innerHTML = favouriteCity;
 
     document.getElementById("listCities").appendChild(buttonFavouriteCity);
-
 });
 
 
 $(document).on("click", ".fav-bar", function () {
     var searching = $(this).text();
-    //        console.log(searching);
     getCity(searching);
     $("#explanation").remove();
 });
@@ -45,7 +44,6 @@ function getCity(searching) {
 
         success: function (weather) {
             $("#myCarousel").show();
-            //                console.log(weather);
 
             var nameCityTitle = weather.city.name;
             $("#cityNameTitle").html("<h1>" + nameCityTitle + "'s weather" + "</h1>");
@@ -76,88 +74,71 @@ function imageInfo(weather, x, cardNumber, imageNumber) {
     var clearCards = document.getElementById(cardNumber);
     clearCards.innerHTML = '';
 
-    var coordLat = weather.city.coord.lat;
-    var coordLon = weather.city.coord.lon;
-    var coordinates = coordLat.toString() + " , " + coordLon.toString();
+    var values = valuesPicked(weather, x);
 
-    var country = weather.city.country;
+    showBackgroundImage(values.weatherIcon, imageNumber);
 
-    var temperature = weather.list[x].main.temp - 273.15;
-    var temp = temperature.toFixed(1);
+    printData(values.date, cardNumber);
+    printData(values.weatherDescrip, cardNumber);
+    printData("Temp: " + values.temp + "&#8451;", cardNumber);
+    printData("T.Max: " + values.tempMax + "&#8451;" + " | T.Min: " + values.tempMin + "&#8451;", cardNumber);
+    printData("Wind: " + values.windSpeed + "Km/h", cardNumber);
+    printData("Hum: " + values.humidity + "%" + " | Press: " + values.pressure + "Bar", cardNumber);
+};
 
-    var weatherDescrip = weather.list[x].weather[0].description;
+function valuesPicked(weather, x){
+    return {
+        date: weather.list[x].dt_txt,
+        weatherDescrip: weather.list[x].weather[0].description,
+        temp: (weather.list[x].main.temp - 273.15).toFixed(1),
+        tempMax:(weather.list[x].main.temp_max - 273.15).toFixed(1),
+        tempMin: (weather.list[x].main.temp_min - 273.15).toFixed(1),
+        windSpeed: (weather.list[x].wind.speed * 1.852).toFixed(2),
+        humidity: weather.list[x].main.humidity,
+        pressure: weather.list[x].main.pressure,
+        weatherIcon: weather.list[x].weather[0].icon
+    }
+};
 
-    var date = weather.list[x].dt_txt;
-
-    var maxTemp = weather.list[x].main.temp_max - 273.15;
-    var tempMax = maxTemp.toFixed(1);
-
-    var minTemp = weather.list[x].main.temp_min - 273.15;
-    var tempMin = minTemp.toFixed(1)
-
-    var wind = weather.list[x].wind.speed;
-    var speed = wind * 1.852;
-    var windSpeed = speed.toFixed(2);
-
-    var humidity = weather.list[x].main.humidity;
-
-    var pressure = weather.list[x].main.pressure;
-
-
-    var weatherIcon = weather.list[x].weather[0].icon;
-    //                    console.log(weatherIcon);
-
-    showBackgroundImage(weatherIcon, imageNumber);
-
-
+function printData(print, cardNumber){
     var p = document.createElement("p");
-    p.innerHTML = date;
-    document.getElementById(cardNumber).appendChild(p);
-
-    var p = document.createElement("p");
-    p.innerHTML = weatherDescrip;
-    document.getElementById(cardNumber).appendChild(p);
-
-    var p = document.createElement("p");
-    p.innerHTML = "Temp: " + temp + "&#8451;";
-    document.getElementById(cardNumber).appendChild(p);
-
-    var p = document.createElement("p");
-    p.innerHTML = "T.Max: " + tempMax + "&#8451;" + " | T.Min: " + tempMin + "&#8451;";
-    document.getElementById(cardNumber).appendChild(p);
-
-    var p = document.createElement("p");
-    p.innerHTML = "Wind: " + windSpeed + "Km/h";
-    document.getElementById(cardNumber).appendChild(p);
-
-    var p = document.createElement("p");
-    p.innerHTML = "Hum: " + humidity + "%" + " | Press: " + pressure + "Bar";;
+    p.innerHTML = print;
     document.getElementById(cardNumber).appendChild(p);
 
 };
 
-
-
 function showBackgroundImage(weatherIcon, imageNumber) {
-    if ((weatherIcon == "11d") || (weatherIcon == "11n")) {
-        $(imageNumber).attr("src", "Imatges/heavyRain1.jpg");
+    switch (weatherIcon) {
+        case '11d' || '11n':
+            setImageNumberAttr("Imatges/heavyRain1.jpg", imageNumber);
+            break;
 
-    } else if ((weatherIcon == "09d") || (weatherIcon == "09n")) {
-        $(imageNumber).attr("src", "Imatges/heavyRainUmbrella.jpg");
+        case '09d' || '09n':
+            setImageNumberAttr("Imatges/heavyRainUmbrella.jpg", imageNumber);
+            break;
 
-    } else if ((weatherIcon == "10d") || (weatherIcon == "10n")) {
-        $(imageNumber).attr("src", "Imatges/rainny.jpg");
+        case '10d' || '10n':
+            setImageNumberAttr("Imatges/rainny.jpg", imageNumber);
+            break;
 
-    } else if ((weatherIcon == "13d") || (weatherIcon == "13n")) {
-        $(imageNumber).attr("src", "Imatges/snowingDraw.jpg");
+        case '13d' || '13n':
+            setImageNumberAttr("Imatges/snowingDraw.jpg", imageNumber);
+            break;
 
-    } else if ((weatherIcon == "01d") || (weatherIcon == "01n")) {
-        $(imageNumber).attr("src", "Imatges/sunnyCity.jpg");
+        case '01d' || '01n':
+            setImageNumberAttr("Imatges/sunnyCity.jpg", imageNumber);
+            break;
 
-    } else if ((weatherIcon == "02d") || (weatherIcon == "02n") || (weatherIcon == "03d") || (weatherIcon == "03n") || (weatherIcon == "04d") || (weatherIcon == "04n")) {
-        $(imageNumber).attr("src", "Imatges/cloudy.jpg");
+        case '02d' || '02n' || '03n' || '03d':
+            setImageNumberAttr("Imatges/cloudy.jpg", imageNumber);
+            break;
 
-    } else if ((weatherIcon == "50d") || (weatherIcon == "50n")) {
-        $(imageNumber).attr("src", "Imatges/danger.jpg");
-    };
-}
+        case '50d' || '50n':
+            setImageNumberAttr("Imatges/danger.jpg", imageNumber);
+            break;
+    }
+};
+
+function setImageNumberAttr(image, imageNumber) {
+    return $(imageNumber).attr("src", image);
+};

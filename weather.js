@@ -2,11 +2,12 @@ $("#myCarousel").hide();
 
 document.getElementById("searching").focus();
 
-//click on
+//click on -- fire search
 $("#submitBtn").on("click", function () {
     searchEvent();
 });
 
+//click Enter -- fire search
 var searchingBar = document.getElementById("searching");
 searchingBar.addEventListener("keyup", function (event) {
     if (event.keyCode === 13) {
@@ -21,23 +22,7 @@ function searchEvent() {
     $("#searching").val('');
 }
 
-$("#createFavourite").on("click", function () {
-    var favouriteCity = $("#searching").val();
-    var buttonFavouriteCity = document.createElement("button");
-    buttonFavouriteCity.setAttribute("class", "btn fav-bar");
-    buttonFavouriteCity.innerHTML = favouriteCity;
-
-    document.getElementById("listCities").appendChild(buttonFavouriteCity);
-});
-
-
-$(document).on("click", ".fav-bar", function () {
-    var searching = $(this).text();
-    getCity(searching);
-    $("#explanation").remove();
-});
-
-
+//API call
 function getCity(searching) {
     $.ajax({
         url: "https://api.openweathermap.org/data/2.5/forecast?q=" + searching + "&APPID=792c99e72789a093340e9fefbcd1f2fc",
@@ -63,12 +48,11 @@ function getCity(searching) {
             document.getElementById("cityNameTitle").appendChild(errorMessage);
 
         }
-
     });
 };
 
 
-
+//Functions root
 function imageInfo(weather, x, cardNumber, imageNumber) {
 
     var clearCards = document.getElementById(cardNumber);
@@ -86,6 +70,7 @@ function imageInfo(weather, x, cardNumber, imageNumber) {
     printData("Hum: " + values.humidity + "%" + " | Press: " + values.pressure + "Bar", cardNumber);
 };
 
+//set all info into variables
 function valuesPicked(weather, x){
     return {
         date: weather.list[x].dt_txt,
@@ -100,13 +85,7 @@ function valuesPicked(weather, x){
     }
 };
 
-function printData(print, cardNumber){
-    var p = document.createElement("p");
-    p.innerHTML = print;
-    document.getElementById(cardNumber).appendChild(p);
-
-};
-
+//set correct image
 function showBackgroundImage(weatherIcon, imageNumber) {
     switch (weatherIcon) {
         case '11d' || '11n':
@@ -139,6 +118,32 @@ function showBackgroundImage(weatherIcon, imageNumber) {
     }
 };
 
+//set attribute of the image
 function setImageNumberAttr(image, imageNumber) {
     return $(imageNumber).attr("src", image);
 };
+
+//DOM info
+function printData(print, cardNumber){
+    var p = document.createElement("p");
+    p.innerHTML = print;
+    document.getElementById(cardNumber).appendChild(p);
+
+};
+
+//Add city to favourites list
+$("#createFavourite").on("click", function () {
+    var favouriteCity = $("#searching").val();
+    var buttonFavouriteCity = document.createElement("button");
+    buttonFavouriteCity.setAttribute("class", "btn fav-bar");
+    buttonFavouriteCity.innerHTML = favouriteCity;
+
+    document.getElementById("listCities").appendChild(buttonFavouriteCity);
+});
+
+//Search using favourites list
+$(document).on("click", ".fav-bar", function () {
+    var searching = $(this).text();
+    getCity(searching);
+    $("#explanation").remove();
+});
